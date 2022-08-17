@@ -1,0 +1,15 @@
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }} alert-dismissible" role="alert">
+            <div class="d-flex">
+                <div>
+                    <h4 class="alert-title">{{ message.title|raw }}</h4>
+                    {% if message.content is defined %}
+                        <div class="text-muted">{{ message.content|raw }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+        </div>
+    {% endfor %}
+{% endfor %}

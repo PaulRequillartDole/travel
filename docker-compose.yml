@@ -1,21 +1,26 @@
-version: '3'
+  version: '3'
+  services:
+      database:
+        image: mariadb:10.3
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: app_db
+          MYSQL_USER: db_user
+          MYSQL_PASSWORD: db_user_pass
+        ports: [3306] 
+        volumes:
+          - ./database_mariadb_103:/var/lib/mysql
+    
+      phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+          - database
+        environment:
+          PMA_HOST: database
+          PMA_PORT: 3306
+          PMA_ARBITRARY: 1
+        ports: [80]
 
-services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-14}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
-
-volumes:
-###> doctrine/doctrine-bundle ###
-  db-data:
-###< doctrine/doctrine-bundle ###
+      mailer:
+        image: mailhog/mailhog
+        ports: [1025, 8025]
