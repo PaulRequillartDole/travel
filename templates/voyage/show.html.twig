@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voyage{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="mx-auto" style="max-width: 1000px; width: 100%">
+{#            <img src="https://media.routard.com/image/13/5/guadeloupe.1557135.c1000x300.jpg" alt="">#}
+            <div style="max-height: 200px; overflow: hidden;" class="text-center">
+                <img style="max-width: 100%;" class="rounded"
+{#                                         src="https://thumbs.dreamstime.com/b/banner-travel-skyline-paris-city-roofs-eiffel-tower-which-paris-best-destinations-europe-travel-landmark-concept-220385446.jpg"#}
+{#                                         src="https://media.routard.com/image/13/5/guadeloupe.1557135.c1000x300.jpg"#}
+                                         src="https://fac.img.pmdstatic.net/fit/https.3A.2F.2Fi.2Epmdstatic.2Enet.2Ffac.2F2021.2F09.2F23.2Fcd4d4cb1-cc0f-4825-8813-11a80af81cda.2Ejpeg/1200x1200/quality/80/crop-from/center/visite-a-annecy-10-idees-originales-pour-decouvrir-la-ville-nos-bonnes-adresses.jpeg"
+{#                     src="https://www.airvacances.fr/wp-content/uploads/2019/07/LesSaintes_Guadeloupe_paysage_plage.jpg"#}
+                     alt=""
+                >
+            </div>
+            <div class="mx-1 mx-md-3" style="margin-top: -3rem !important;">
+                <div class="card" >
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-3" >
+                            <h1 class="mb-0">Voyage to {{ voyage.destination }}</h1>
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown">
+                                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Add
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="#">Note</a></li>
+                                        <li><a class="dropdown-item" href="#">Place to visit</a></li>
+                                        <li><a class="dropdown-item" href="#">Restaurant</a></li>
+                                    </ul>
+                                </div>
+                                {% if is_granted('VOYAGE_EDIT', voyage) %}
+                                    <div class="dropdown">
+                                        <button class="btn px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical mx-0 px-0" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <circle cx="12" cy="12" r="1"></circle>
+                                                <circle cx="12" cy="19" r="1"></circle>
+                                                <circle cx="12" cy="5" r="1"></circle>
+                                            </svg>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="#">
+
+                                                    {{ include('voyage/_delete_form.html.twig') }}
+                                                </a></li>
+                                            <li><a class="dropdown-item" href="{{ path('app_voyage_edit', {'id': voyage.id}) }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                        <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                        <path d="M16 5l3 3"></path>
+                                                    </svg>
+                                                    Edit
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if voyage.description %}
+                            <div class="text-muted">
+                                {{ voyage.description }}
+                            </div>
+                        {% endif %}
+                        {% if voyage.startAt is not null and voyage.endAt is not null %}
+                            <div class="text-muted">
+                                {{ voyage.duration }} days -
+                                from <b>{{ voyage.startAt|date('d/m/Y') }}</b> to <b>{{ voyage.endAt|date('d/m/Y') }}</b>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

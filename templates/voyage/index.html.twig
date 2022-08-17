@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voyage index{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between gap-2 align-items-center mb-2">
+        <h1 class="mb-0">
+            Mes voyages
+        </h1>
+        <a href="{{ path('app_voyage_new') }}" class="btn btn-azure">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <circle cx="12" cy="12" r="9"></circle>
+                <line x1="9" y1="12" x2="15" y2="12"></line>
+                <line x1="12" y1="9" x2="12" y2="15"></line>
+            </svg>
+            Ajouter un voyage
+        </a>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+        {% for voyage in app.user.voyages %}
+            <div class="col my-2">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex gap-2 align-items-center justify-content-between mb-2">
+                            <h3 class="card-title mb-0">
+                                <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}">Voyage to {{ voyage.destination }}</a>
+                            </h3>
+                            {% if voyage.status %}
+                                <span class="badge bg-{{ voyage.status.color ?? "light border text-dark" }}">
+                            {{ voyage.status.label }}
+                        </span>
+                            {% endif %}
+                        </div>
+                        <div class="text-muted">{{ voyage.description }}</div>
+                        <div class="text-muted">
+                            {% if voyage.startAt is not null and voyage.endAt is not null %}
+                                from {{ voyage.startAt|date('d/m/Y') }} to {{ voyage.endAt|date('d/m/Y') }}
+                            {% else %}
+                                --
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-footer py-1">
+                        <div class="avatar-list avatar-list-stacked">
+                            <span class="avatar avatar-sm avatar-rounded">{{ voyage.owner.userIdentifier|slice(0, 2) }}</span>
+                            {% for user in voyage.users %}
+                                <span class="avatar avatar-sm avatar-rounded">{{ user.userIdentifier|slice(0, 2) }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{#    <div class="card card-table">#}
+{#        <table class="table mb-0">#}
+{#            <thead>#}
+{#            <tr>#}
+{#                <th>#</th>#}
+{#                <th>Destination</th>#}
+{#                <th>Dates</th>#}
+{#                <th>Status</th>#}
+{#                <th>Users</th>#}
+{#                <th>actions</th>#}
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#            {% for voyage in app.user.voyages %}#}
+{#                <tr>#}
+{#                    <td>{{ voyage.id }}</td>#}
+{#                    <td>{{ voyage.destination }}</td>#}
+{#                    <td>#}
+{#                        {% if voyage.startAt is not null and voyage.endAt is not null %}#}
+{#                            from {{ voyage.startAt|date('d/m/Y') }} to {{ voyage.endAt|date('d/m/Y') }}#}
+{#                        {% else %}#}
+{#                            --#}
+{#                        {% endif %}#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        {% if voyage.status %}#}
+{#                            <span class="badge bg-{{ voyage.status.color ?? "light border text-dark" }}">#}
+{#                            {{ voyage.status.label }}#}
+{#                        </span>#}
+{#                        {% endif %}#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <div class="avatar-list avatar-list-stacked">#}
+{#                            <span class="avatar avatar-sm avatar-rounded">{{ voyage.owner.userIdentifier|slice(0, 2) }}</span>#}
+{#                            {% for user in voyage.users %}#}
+{#                                <span class="avatar avatar-sm avatar-rounded">{{ user.userIdentifier|slice(0, 2) }}</span>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        {% if is_granted('VOYAGE_SHOW', voyage) %}#}
+{#                            <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}">show</a>#}
+{#                        {% endif %}#}
+{#                        {% if is_granted('VOYAGE_EDIT', voyage) %}#}
+{#                            <a href="{{ path('app_voyage_edit', {'id': voyage.id}) }}">edit</a>#}
+{#                        {% endif %}#}
+{#                    </td>#}
+{#                </tr>#}
+{#            {% else %}#}
+{#                <tr>#}
+{#                    <td colspan="6">no records found</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#            </tbody>#}
+{#        </table>#}
+{#    </div>#}
+
+{#    <a href="{{ path('app_voyage_new') }}">Create new</a>#}
+{% endblock %}
