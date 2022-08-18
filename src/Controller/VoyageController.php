@@ -48,7 +48,8 @@ class VoyageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $voyageRepository->add($voyage, true);
 
-            return $this->redirectToRoute('app_voyage_index', [], Response::HTTP_SEE_OTHER);
+            //return to voyage
+            return $this->redirectToRoute('app_voyage_show', ['id' => $voyage->getId()]);
         }
 
         return $this->renderForm('voyage/new.html.twig', [
@@ -89,7 +90,8 @@ class VoyageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $voyageRepository->add($voyage, true);
 
-            return $this->redirectToRoute('app_voyage_index', [], Response::HTTP_SEE_OTHER);
+            //return to voyage
+            return $this->redirectToRoute('app_voyage_show', ['id' => $voyage->getId()]);
         }
 
         return $this->renderForm('voyage/edit.html.twig', [

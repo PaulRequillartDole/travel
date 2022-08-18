@@ -20,6 +20,9 @@
     "dependencies": {
         "@popperjs/core": "^2.11.6",
         "@tabler/icons": "^1.83.1",
-        "bootstrap": "^5.2.0"
+        "@toast-ui/editor": "3.1.8",
+        "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
+        "bootstrap": "^5.2.0",
+        "prismjs": "^1.28.0"
     }
 }

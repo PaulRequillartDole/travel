@@ -55,9 +55,20 @@ class Voyage
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="voyage")
+     */
+    private $notes;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,6 +177,48 @@ class Voyage
     public function removeUser(User $user): self
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setVoyage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getVoyage() === $this) {
+                $note->setVoyage(null);
+            }
+        }
 
         return $this;
     }

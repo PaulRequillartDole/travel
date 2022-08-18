@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -51,6 +52,10 @@ class VoyageType extends AbstractType
                         ->setParameter('user', $user->getId())
                         ->orderBy('u.username', 'ASC');
                 },
+                'required' => false,
+            ])
+            ->add('image', TextType::class, [
+                'label' => 'url de l\'image',
                 'required' => false,
             ])
         ;
