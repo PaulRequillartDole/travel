@@ -65,10 +65,16 @@ class Voyage
      */
     private $notes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Place::class, mappedBy="voyage")
+     */
+    private $places;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,6 +223,36 @@ class Voyage
             // set the owning side to null (unless already changed)
             if ($note->getVoyage() === $this) {
                 $note->setVoyage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(Place $place): self
+    {
+        if (!$this->places->contains($place)) {
+            $this->places[] = $place;
+            $place->setVoyage($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): self
+    {
+        if ($this->places->removeElement($place)) {
+            // set the owning side to null (unless already changed)
+            if ($place->getVoyage() === $this) {
+                $place->setVoyage(null);
             }
         }
 

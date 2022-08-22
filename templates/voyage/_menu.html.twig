@@ -1,0 +1,28 @@
+{% set menu = [] %}
+{% if voyage.notes|length > 0 %}
+    {% set menu = menu|merge([
+        {
+            'title': 'Notes',
+            'path' : "#notes",
+        }
+    ]) %}
+{% endif %}
+
+{% if voyage.places|length > 0 %}
+    {% set menu = menu|merge([
+        {
+            'title': 'Places',
+            'path' : "#places",
+        }
+    ]) %}
+{% endif %}
+
+{# vertical menu : #}
+{% if menu|length > 2 %}
+
+    <ul class="nav my-3">
+        {% for item in menu %}
+            <li class="nav-item"><a class="btn  btn-white rounded border mx-1" href="{{ item.path }}">{{ item.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
