@@ -13,7 +13,9 @@
         </tr>
         <tr>
             <th>Description</th>
-            <td>{{ place.description }}</td>
+            <td>
+                <div data-controller="mdviewer" data-value="{{ place.description }}"></div>
+            </td>
         </tr>
         </tbody>
     </table>

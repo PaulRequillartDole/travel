@@ -8,7 +8,7 @@
             <h1 class="mb-0">
                 Mes voyages
             </h1>
-            <a href="{{ path('app_voyage_new') }}" class="btn btn-azure"
+            <a href="{{ path('app_voyage_new') }}" class="btn btn-indigo"
                data-action="modal#showModal"
                data-modal-url-param="{{ path('app_voyage_new') }}"
             >
@@ -22,15 +22,15 @@
             </a>
         </div>
         <div data-controller="filter">
-            <form action="" data-filter-target="form" data-action="change->filter#test">
+            <form action="" data-filter-target="form" data-action="change->filter#applyFilter">
                 <div class="my-3 d-flex gap-3">
                     <label>
-                        <input type="checkbox" value="0">
+                        <input id="filter_0" type="radio" value="0" name="status[]" data-filter-target="filter">
                         Tous les voyages
                     </label>
                     {% for s in status %}
                         <label>
-                            <input type="checkbox" value="{{ s.id }}">
+                            <input id="filter_{{ s.id }}" type="radio" value="{{ s.id }}" name="status[]">
                             {{ s.label }}
                         </label>
                     {% endfor %}
@@ -38,7 +38,7 @@
             </form>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
                 {% for voyage in app.user.voyages %}
-                    <div class="col my-2">
+                    <div class="col my-2 d-none">
                         <div class="card h-100" data-filter-target="voyage" data-status="{{ voyage.status.id }}" data-destination="{{ voyage.destination }}">
                             <div class="card-body">
                                 <div class="d-flex gap-2 align-items-center justify-content-between mb-2">

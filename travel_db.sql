@@ -22,22 +22,6 @@ SET time_zone = "+00:00";
 --
 
 --
--- Déchargement des données de la table `doctrine_migration_versions`
---
-
-INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-('DoctrineMigrations\\Version20220817074859', '2022-08-17 09:49:01', 43),
-('DoctrineMigrations\\Version20220817091122', '2022-08-17 11:11:26', 42),
-('DoctrineMigrations\\Version20220817101109', '2022-08-17 12:11:11', 73),
-('DoctrineMigrations\\Version20220817112828', '2022-08-17 13:28:31', 29),
-('DoctrineMigrations\\Version20220817115831', '2022-08-17 13:58:33', 132),
-('DoctrineMigrations\\Version20220817142831', '2022-08-17 16:28:33', 40),
-('DoctrineMigrations\\Version20220818065506', '2022-08-18 08:55:08', 36),
-('DoctrineMigrations\\Version20220818071743', '2022-08-18 09:17:46', 101),
-('DoctrineMigrations\\Version20220818085937', '2022-08-18 10:59:39', 61),
-('DoctrineMigrations\\Version20220819134944', '2022-08-19 15:49:46', 60);
-
---
 -- Déchargement des données de la table `note`
 --
 

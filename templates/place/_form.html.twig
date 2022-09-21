@@ -1,4 +1,8 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.title) }}
+    <div data-controller="mdeditor">
+        {{ form_widget(form.description, {'attr' : {'data-mdeditor-target' : 'textarea'}}) }}
+        <div data-mdeditor-target="editor" data-value="{{ form.vars.value.description }}"></div>
+    </div >
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
