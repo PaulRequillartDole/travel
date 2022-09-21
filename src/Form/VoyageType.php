@@ -20,7 +20,9 @@ class VoyageType extends AbstractType
     {
         $user = $options['user'];
         $builder
-            ->add('destination')
+            ->add('destination', TextType::class, [
+                'data' => !$builder->getData()->getId() ? "Trip to " : $builder->getData()->getDestination(),
+            ])
             ->add('description', TextareaType::class, [
                 'required' => false,
             ])
@@ -46,6 +48,7 @@ class VoyageType extends AbstractType
                 'choice_label' => 'username',
                 'placeholder' => 'Sélectionnez un ou plusieurs utilisateurs',
                 'multiple' => true,
+                'expanded' => true,
                 'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('u')
                         ->andWhere('u.id != :user')

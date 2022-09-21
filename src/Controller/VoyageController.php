@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Place;
 use App\Entity\User;
 use App\Entity\Voyage;
 use App\Form\VoyageType;
@@ -23,13 +24,15 @@ class VoyageController extends AbstractController
     {
         $voyages = $this->getUser()->getVoyages();
         $voyagesByStatus = [];
+        $status = [];
         foreach ($voyages as $voyage) {
             $voyagesByStatus[$voyage->getStatus()->getLabel()][] = $voyage;
+            $status[$voyage->getStatus()->getLabel()] = $voyage->getStatus();
         }
-
         return $this->render('voyage/index.html.twig', [
             'voyages' => $voyageRepository->findAll(),
             'voyagesByStatus' => $voyagesByStatus,
+            'status' => $status,
         ]);
     }
 
@@ -84,7 +87,10 @@ class VoyageController extends AbstractController
         }
 
         $user = $this->getUser();
-        $form = $this->createForm(VoyageType::class, $voyage, ['user' => $user]);
+        $form = $this->createForm(VoyageType::class, $voyage, [
+            'user' => $user,
+            'action' => $this->generateUrl('app_voyage_edit', ['id' => $voyage->getId()])
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -97,6 +103,16 @@ class VoyageController extends AbstractController
         return $this->renderForm('voyage/edit.html.twig', [
             'voyage' => $voyage,
             'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/voyage/{id}/show-delete", name="app_voyage_show_delete", methods={"GET", "POST"})
+     */
+    public function showDelete(Voyage $voyage): Response
+    {
+        return $this->render('voyage/delete.html.twig', [
+            'voyage' => $voyage,
         ]);
     }
 

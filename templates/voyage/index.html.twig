@@ -3,55 +3,78 @@
 {% block title %}Voyage index{% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-between gap-2 align-items-center mb-2">
-        <h1 class="mb-0">
-            Mes voyages
-        </h1>
-        <a href="{{ path('app_voyage_new') }}" class="btn btn-azure">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <circle cx="12" cy="12" r="9"></circle>
-                <line x1="9" y1="12" x2="15" y2="12"></line>
-                <line x1="12" y1="9" x2="12" y2="15"></line>
-            </svg>
-            Ajouter un voyage
-        </a>
-    </div>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-        {% for voyage in app.user.voyages %}
-            <div class="col my-2">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex gap-2 align-items-center justify-content-between mb-2">
-                            <h3 class="card-title mb-0">
-                                <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}">Voyage to {{ voyage.destination }}</a>
-                            </h3>
-                            {% if voyage.status %}
-                                <span class="badge bg-{{ voyage.status.color ?? "light border text-dark" }}">
+    <div data-controller="modal">
+        <div class="d-flex justify-content-between gap-2 align-items-center mb-2">
+            <h1 class="mb-0">
+                Mes voyages
+            </h1>
+            <a href="{{ path('app_voyage_new') }}" class="btn btn-azure"
+               data-action="modal#showModal"
+               data-modal-url-param="{{ path('app_voyage_new') }}"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <line x1="9" y1="12" x2="15" y2="12"></line>
+                    <line x1="12" y1="9" x2="12" y2="15"></line>
+                </svg>
+                Ajouter un voyage
+            </a>
+        </div>
+        <div data-controller="filter">
+            <form action="" data-filter-target="form" data-action="change->filter#test">
+                <div class="my-3 d-flex gap-3">
+                    <label>
+                        <input type="checkbox" value="0">
+                        Tous les voyages
+                    </label>
+                    {% for s in status %}
+                        <label>
+                            <input type="checkbox" value="{{ s.id }}">
+                            {{ s.label }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </form>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                {% for voyage in app.user.voyages %}
+                    <div class="col my-2">
+                        <div class="card h-100" data-filter-target="voyage" data-status="{{ voyage.status.id }}" data-destination="{{ voyage.destination }}">
+                            <div class="card-body">
+                                <div class="d-flex gap-2 align-items-center justify-content-between mb-2">
+                                    <h3 class="card-title mb-0">
+                                        <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}">{{ voyage.destination }}</a>
+                                    </h3>
+                                    {% if voyage.status %}
+                                        <span class="badge bg-{{ voyage.status.color ?? "light border text-dark" }}">
                             {{ voyage.status.label }}
                         </span>
-                            {% endif %}
-                        </div>
-                        <div class="text-muted">{{ voyage.description }}</div>
-                        <div class="text-muted">
-                            {% if voyage.startAt is not null and voyage.endAt is not null %}
-                                from {{ voyage.startAt|date('d/m/Y') }} to {{ voyage.endAt|date('d/m/Y') }}
-                            {% else %}
-                                --
-                            {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="text-muted">{{ voyage.description }}</div>
+                                <div class="text-muted">
+                                    {% if voyage.startAt is not null and voyage.endAt is not null %}
+                                        from {{ voyage.startAt|date('d/m/Y') }} to {{ voyage.endAt|date('d/m/Y') }}
+                                    {% else %}
+                                        --
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer py-1">
+                                <div class="avatar-list avatar-list-stacked">
+                                    <span class="avatar avatar-sm avatar-rounded">{{ voyage.owner.userIdentifier|slice(0, 2) }}</span>
+                                    {% for user in voyage.users %}
+                                        <span class="avatar avatar-sm avatar-rounded">{{ user.userIdentifier|slice(0, 2) }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-footer py-1">
-                        <div class="avatar-list avatar-list-stacked">
-                            <span class="avatar avatar-sm avatar-rounded">{{ voyage.owner.userIdentifier|slice(0, 2) }}</span>
-                            {% for user in voyage.users %}
-                                <span class="avatar avatar-sm avatar-rounded">{{ user.userIdentifier|slice(0, 2) }}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
+
+        {{ include('_modal.html.twig') }}
     </div>
 {#    <div class="card card-table">#}
 {#        <table class="table mb-0">#}

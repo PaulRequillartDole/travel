@@ -1,18 +1,35 @@
 {{ form_start(form) }}
     {{ form_row(form.destination) }}
     {{ form_row(form.description) }}
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.startAt) }}
-        </div>
-        <div class="col">
-            {{ form_row(form.endAt) }}
+    <div class="my-3">
+        <label class="form-label" for="daterange">Dates du voyage</label>
+        <div class="input-group">
+            {{ form_widget(form.startAt, {'attr' : {'data-daterange-target' : 'start'}}) }}
+            <span class="input-group-text"> au </span>
+            {{ form_widget(form.endAt, {'attr' : {'data-daterange-target' : 'end'}}) }}
         </div>
     </div>
     {{ form_row(form.status) }}
-    {{ form_row(form.users) }}
+    {{ form_label(form.users) }}
+    <div class="row row-cols-3 row-cols-md-4 g-3 my-3">
+        {% for user in form.users %}
+            <div class="col d-flex align-items-baseline gap-2">
+                <input {% if user.vars.checked %} checked="checked" {% endif %}
+                        type="checkbox" id="{{  user.vars.id }}"
+                        name="voyage[users][]" class="form-check-input"
+                        value="{{ user.vars.value }}">
+                <label class="form-check-label text-center" for="{{  user.vars.id }}">
+                    <span class="avatar border">{{ user.vars.label|slice(0, 2) }}</span>
+                    <span class="d-block">{{ user.vars.label }}</span>
+                </label>
+            </div>
+        {% endfor %}
+    </div>
     {{ form_row(form.image) }}
     <div class="text-end">
         <button class="btn btn-indigo">{{ button_label|default('Save') }}</button>
+    </div>
+    <div hidden="hidden">
+        {{ form_rest(form) }}
     </div>
 {{ form_end(form) }}

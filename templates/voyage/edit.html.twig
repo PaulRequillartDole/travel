@@ -1,13 +1,15 @@
-{% extends 'base.html.twig' %}
+{#{% extends 'base.html.twig' %}#}
 
-{% block title %}Edit Voyage{% endblock %}
+{#{% block title %}Edit Voyage{% endblock %}#}
 
-{% block body %}
+{#{% block body %}#}
+<div class="modal-body">
     <h1>Edit Voyage</h1>
 
     {{ include('voyage/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_voyage_index') }}">back to list</a>
+{#    <a href="{{ path('app_voyage_index') }}">back to list</a>#}
 
-    {{ include('voyage/_delete_form.html.twig') }}
-{% endblock %}
+{#    {{ include('voyage/_delete_form.html.twig') }}#}
+</div>
+{#{% endblock %}#}

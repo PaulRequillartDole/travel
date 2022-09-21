@@ -15,6 +15,8 @@ export default class extends Controller {
         event.preventDefault();
         const params = event.params;
         const url = params.url;
+        const size = params.size;
+        console.log(size);
         //fetch the modal content from the server
         fetch(url, {
             headers: {
@@ -25,7 +27,13 @@ export default class extends Controller {
             .then(response => response.text())
             .then(html => {
                 const content = this.modal._element.querySelector('.modal-content');
+                const dialog = this.modal._element.querySelector('.modal-dialog');
                 content.innerHTML = html;
+                if (size !== undefined){
+                    dialog.className = "modal-dialog " + size;
+                }else{
+                    dialog.className = "modal-dialog modal-fullscreen-md-down";
+                }
                 this.modal.show();
             });
     }
