@@ -28,13 +28,17 @@
             <form action="" data-filter-target="form" data-action="change->filter#applyFilter">
                 <div class="my-3 d-flex gap-3">
                     <label>
-                        <input id="filter_0" type="radio" value="0" name="status[]" data-filter-target="filter">
-                        Tous les voyages
+                        <span class="badge bg-light border text-dark">
+                            <input style="outline: none; box-shadow: none" id="filter_0" type="radio" value="0" name="status[]">
+                            Tous les voyages
+                        </span>
                     </label>
                     {% for s in status %}
                         <label>
-                            <input id="filter_{{ s.id }}" type="radio" value="{{ s.id }}" name="status[]">
-                            {{ s.label }}
+                            <span class="badge bg-{{ s.color }}">
+                                <input style="outline: none; box-shadow: none" id="filter_{{ s.id }}" type="radio" value="{{ s.id }}" name="status[]">
+                                {{ s.label }}
+                            </span>
                         </label>
                     {% endfor %}
                 </div>
