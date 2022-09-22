@@ -45,7 +45,10 @@ class VoyageController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $voyage->setOwner($user);
-        $form = $this->createForm(VoyageType::class, $voyage, ['user' => $user]);
+        $form = $this->createForm(VoyageType::class, $voyage, [
+            'user' => $user,
+            'action' => $this->generateUrl('app_voyage_new'),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

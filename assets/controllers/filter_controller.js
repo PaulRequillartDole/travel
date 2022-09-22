@@ -30,10 +30,22 @@ export default class extends Controller {
     }
 
     getFilter(){
-        return localStorage.getItem('filter') ?? 0;
+        var filter = localStorage.getItem('filter');
+        if (filter !== null && this.filterExist(filter)){
+            return filter
+        }else {
+            return 0
+        }
     }
 
     checkFilter() {
-        document.querySelector("input#filter_"+this.getFilter()).checked = true;
+        var filter = document.querySelector("input#filter_"+this.getFilter());
+        if(filter !== undefined){
+            filter.checked = true;
+        }
+    }
+
+    filterExist(filter){
+        return document.querySelector("input#filter_"+filter) !== null;
     }
 }

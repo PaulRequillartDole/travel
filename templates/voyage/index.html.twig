@@ -38,38 +38,7 @@
             </form>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
                 {% for voyage in app.user.voyages %}
-                    <div class="col my-2 d-none">
-                        <div class="card h-100" data-filter-target="voyage" data-status="{{ voyage.status.id }}" data-destination="{{ voyage.destination }}">
-                            <div class="card-body">
-                                <div class="d-flex gap-2 align-items-center justify-content-between mb-2">
-                                    <h3 class="card-title mb-0">
-                                        <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}">{{ voyage.destination }}</a>
-                                    </h3>
-                                    {% if voyage.status %}
-                                        <span class="badge bg-{{ voyage.status.color ?? "light border text-dark" }}">
-                            {{ voyage.status.label }}
-                        </span>
-                                    {% endif %}
-                                </div>
-                                <div class="text-muted">{{ voyage.description }}</div>
-                                <div class="text-muted">
-                                    {% if voyage.startAt is not null and voyage.endAt is not null %}
-                                        from {{ voyage.startAt|date('d/m/Y') }} to {{ voyage.endAt|date('d/m/Y') }}
-                                    {% else %}
-                                        --
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="card-footer py-1">
-                                <div class="avatar-list avatar-list-stacked">
-                                    <span class="avatar avatar-sm avatar-rounded">{{ voyage.owner.userIdentifier|slice(0, 2) }}</span>
-                                    {% for user in voyage.users %}
-                                        <span class="avatar avatar-sm avatar-rounded">{{ user.userIdentifier|slice(0, 2) }}</span>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {{ include('voyage/_voyage.html.twig') }}
                 {% endfor %}
             </div>
         </div>

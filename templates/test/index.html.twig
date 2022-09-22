@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voyage index{% endblock %}
+
+{% block body %}
+    <div class="alert alert-warning text-center">
+        <b>Page de test</b>
+    </div>
+    <div data-controller="testmodal">
+        <div class="d-flex justify-content-between gap-2 align-items-center mb-2">
+            <h1 class="mb-0">
+                Mes voyages
+            </h1>
+            <a href="{{ path('app_voyage_new') }}" class="btn btn-indigo"
+               data-action="testmodal#showModal"
+               data-testmodal-url-param="{{ path('test_voyage_new') }}"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <line x1="9" y1="12" x2="15" y2="12"></line>
+                    <line x1="12" y1="9" x2="12" y2="15"></line>
+                </svg>
+                Ajouter un voyage
+            </a>
+        </div>
+        <div data-controller="filter">
+            <form action="" data-filter-target="form" data-action="change->filter#applyFilter">
+                <div class="my-3 d-flex gap-3">
+                    <label>
+                        <input id="filter_0" type="radio" value="0" name="status[]" data-filter-target="filter">
+                        Tous les voyages
+                    </label>
+                    {% for s in status %}
+                        <label>
+                            <input id="filter_{{ s.id }}" type="radio" value="{{ s.id }}" name="status[]">
+                            {{ s.label }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </form>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" data-testmodal-target="container">
+                {% for voyage in app.user.voyages %}
+                    {{ include('voyage/_voyage.html.twig') }}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="modal fade" id="newListModal" tabindex="-1" aria-labelledby="newListModalLabel" aria-hidden="true" data-testmodal-target="modal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
