@@ -980,6 +980,11 @@
     error-stack-parser "^2.0.0"
     string-width "^4.2.3"
 
+"@orchidjs/sifter@^0.9.2":
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/@orchidjs/sifter/-/sifter-0.9.3.tgz#6eec2c9649721205130a87f137cc1ab80cdf0c5c"
+  integrity sha512-9XGiAJcWvEektxjR9X+dYeG+kg8GdojM6ZCmrnuDaWoVew+GAKxiesvYxyY+RLUgWTv8B1qpLIVYlswxKcW5XQ==
+
 "@popperjs/core@^2.11.6":
   version "2.11.6"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
@@ -1026,10 +1031,10 @@
     webpack-dev-server "^4.8.0"
     yargs-parser "^21.0.0"
 
-"@tabler/icons@^1.83.1":
-  version "1.83.1"
-  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.83.1.tgz#7e59f4aebcf19b029afd7454164ac3aa8d47f57c"
-  integrity sha512-xJi+59SEIoa3ApbIu81uivmf7Byp9zexoclMlJedBUJGm8vJOeh5PHZFa9k2a/mBnVFccMvJrWpEKbYg0jn1ew==
+"@tabler/icons@^1.97.0":
+  version "1.97.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.97.0.tgz#e727f140c07aad3d26bba374d530f816a96bafbc"
+  integrity sha512-4g6mky2cYzL/utqe8xYOg2KLA3Xf9rQyRowhi1YiekKp9BbV25CTEkn8sFqsRHHLPnl0KuewONHwODeDp46EYw==
 
 "@toast-ui/editor-plugin-code-syntax-highlight@^3.1.0":
   version "3.1.0"
@@ -4144,6 +4149,13 @@ toidentifier@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
+
+tom-select@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tom-select/-/tom-select-2.1.0.tgz#93316cf042a69d9462027b8d6380f18f2a002e9d"
+  integrity sha512-NtE8kACBlMv4QaDakYfnXtEAgM/AVmM7Hw5FNQmij0uwgRgyXC/2kpNJPD1AdT5q/l6mUNkTnInQpTmrwX/tWQ==
+  dependencies:
+    "@orchidjs/sifter" "^0.9.2"
 
 type-is@~1.6.18:
   version "1.6.18"

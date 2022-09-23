@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Item;
 use App\Entity\Place;
+use App\Entity\Section;
 use App\Entity\User;
 use App\Entity\Voyage;
 use App\Form\VoyageType;
 use App\Repository\VoyageRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +33,7 @@ class VoyageController extends AbstractController
             $voyagesByStatus[$voyage->getStatus()->getLabel()][] = $voyage;
             $status[$voyage->getStatus()->getLabel()] = $voyage->getStatus();
         }
+
         return $this->render('voyage/index.html.twig', [
             'voyages' => $voyageRepository->findAll(),
             'voyagesByStatus' => $voyagesByStatus,

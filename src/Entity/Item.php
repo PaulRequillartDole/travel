@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\PlaceRepository;
+use App\Repository\ItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PlaceRepository::class)
+ * @ORM\Entity(repositoryClass=ItemRepository::class)
  */
-class Place
+class Item
 {
     /**
      * @ORM\Id
@@ -25,13 +25,13 @@ class Place
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Voyage::class, inversedBy="places")
+     * @ORM\ManyToOne(targetEntity=Section::class, inversedBy="items")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $voyage;
+    private $section;
 
     public function getId(): ?int
     {
@@ -50,26 +50,26 @@ class Place
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getContent(): ?string
     {
-        return $this->description;
+        return $this->content;
     }
 
-    public function setDescription(?string $description): self
+    public function setContent(?string $content): self
     {
-        $this->description = $description;
+        $this->content = $content;
 
         return $this;
     }
 
-    public function getVoyage(): ?Voyage
+    public function getSection(): ?Section
     {
-        return $this->voyage;
+        return $this->section;
     }
 
-    public function setVoyage(?Voyage $voyage): self
+    public function setSection(?Section $section): self
     {
-        $this->voyage = $voyage;
+        $this->section = $section;
 
         return $this;
     }

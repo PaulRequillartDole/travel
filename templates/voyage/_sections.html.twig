@@ -1,41 +1,29 @@
-<div class="my-3 card" id="places">
+<div class="my-3 card" id="sections">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title mb-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M15 4.5l-4 4l-4 1.5l-1.5 1.5l7 7l1.5 -1.5l1.5 -4l4 -4"></path>
-                <line x1="9" y1="15" x2="4.5" y2="19.5"></line>
-                <line x1="14.5" y1="4" x2="20" y2="9.5"></line>
-            </svg>
-            Lieux à visiter
+            {% if section.icon is not null %}
+                {{ section.icon.label|raw }}
+            {% endif %}
+            {{ section.title }}
         </h3>
-        <a href="#" class="text-primary"
-           data-action="modal#showModal"
-           data-modal-url-param="{{ path('app_place_new', {'id': voyage.id}) }}"
-           data-modal-size-param="modal-xl"
-        >
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus m-0 p-0" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <circle cx="12" cy="12" r="9"></circle>
-                <line x1="9" y1="12" x2="15" y2="12"></line>
-                <line x1="12" y1="9" x2="12" y2="15"></line>
-            </svg>
-        </a>
+        <div>
+            {{ include('section/_action_menu.html.twig') }}
+        </div>
     </div>
     <div class="list-group list-group-flush list-group-hoverable">
-        {% for place in voyage.places %}
+        {% for item in section.items %}
             <div class="list-group-item">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <div>
 
                         <a href="#"
                            data-action="modal#showModal"
-                           data-modal-url-param="{{ path('app_place_show', {'id': place.id}) }}"
+                           data-modal-url-param="{{ path('app_item_show', {'id': item.id}) }}"
                            data-modal-size-param="modal-xl"
                         >
-                            {{ place.title }}
+                            {{ item.title }}
                         </a>
-                        {% if place.description is not null and place.description != "" %}
+                        {% if item.content is not null and item.content != "" %}
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-notes text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <rect x="5" y="3" width="14" height="18" rx="2"></rect>
@@ -48,7 +36,7 @@
                     <div>
                         <a  href="#"
                             data-action="modal#showModal"
-                            data-modal-url-param="{{ path('app_place_edit', {'id': place.id}) }}"
+                            data-modal-url-param="{{ path('app_item_edit', {'id': item.id}) }}"
                             class="text-primary text-decoration-none"
                             data-modal-size-param="modal-xl"
                         >
@@ -61,7 +49,7 @@
                         </a>
                         <a href="#"
                            data-action="modal#showModal"
-                           data-modal-url-param="{{ path('app_place_show_delete', {'id': place.id}) }}"
+                           data-modal-url-param="{{ path('app_item_show_delete', {'id': item.id}) }}"
                            data-modal-size-param="modal-sm"
                            class="text-danger"
                         >
@@ -76,9 +64,6 @@
                         </a>
                     </div>
                 </div>
-{#                <div class="text-muted">#}
-{#                    <div data-controller="mdviewer" data-value="{{ place.description }}"></div>#}
-{#                </div>#}
             </div>
         {% endfor %}
     </div>

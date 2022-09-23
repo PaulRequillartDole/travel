@@ -1,0 +1,30 @@
+{%- block choice_widget_expanded -%}
+    <div class="d-flex gap-4 flex-wrap" {{ block('widget_container_attributes') }}>
+        {% set placeholder = form.children['placeholder'] %}
+        {%- for key, child in form %}
+            {% if key != 'placeholder' %}
+                <label for="{{ child.vars.id }}">
+                    <input {{ child.vars.checked ? "checked" : ""}} type="radio" id="{{ child.vars.id }}" name="{{ child.vars.full_name }}" required="required" class="form-check-input" value="{{ child.vars.value }}">
+                    {{ child.vars.label|raw }}
+                </label>
+            {% endif %}
+        {% endfor -%}
+        {# on affiche la placeholder à la fin #}
+        {{ form_widget(placeholder) }}
+    </div>
+{%- endblock choice_widget_expanded -%}
+
+{%- block choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            <optgroup label="{{ choice_translation_domain is same as(false) ? group_label : group_label|trans({}, choice_translation_domain) }}">
+                {% set options = choice %}
+                {{- block('choice_widget_options') -}}
+            </optgroup>
+        {%- else -%}
+            <option value="{{ choice.value }}"{% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if not render_preferred_choices|default(false) and choice is selectedchoice(value) %} selected="selected"{% endif %}>
+                {{ choice.label|raw }}
+            </option>
+        {%- endif -%}
+    {% endfor %}
+{%- endblock choice_widget_options -%}

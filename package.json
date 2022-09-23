@@ -19,12 +19,13 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.11.6",
-        "@tabler/icons": "^1.83.1",
+        "@tabler/icons": "^1.97.0",
         "@toast-ui/editor": "3.1.8",
         "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
         "bootstrap": "^5.2.0",
         "flatpickr": "^4.6.13",
         "prismjs": "^1.28.0",
+        "tom-select": "^2.1.0",
         "vanillajs-datepicker": "^1.2.0"
     }
 }

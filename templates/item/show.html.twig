@@ -1,0 +1,20 @@
+<div class="modal-body">
+    <h1>Item</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ item.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ item.title }}</td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td><div data-controller="mdviewer" data-value="{{ item.content }}"></div></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

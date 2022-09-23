@@ -1,0 +1,10 @@
+{% form_theme form.icon 'icon/_form_theme.html.twig' %}
+{{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.icon) }}
+{#{{ dump(form.icon.vars) }}#}
+{#{% for icon in form.icon %}#}
+{#    {{ form_widget(icon|raw) }}#}
+{#{% endfor %}#}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

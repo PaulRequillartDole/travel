@@ -61,20 +61,14 @@ class Voyage
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="voyage")
+     * @ORM\OneToMany(targetEntity=Section::class, mappedBy="voyage")
      */
-    private $notes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Place::class, mappedBy="voyage")
-     */
-    private $places;
+    private $sections;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->notes = new ArrayCollection();
-        $this->places = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,61 +192,31 @@ class Voyage
 
         return $this;
     }
-
+    
     /**
-     * @return Collection<int, Note>
+     * @return Collection<int, Section>
      */
-    public function getNotes(): Collection
+    public function getSections(): Collection
     {
-        return $this->notes;
+        return $this->sections;
     }
 
-    public function addNote(Note $note): self
+    public function addSection(Section $section): self
     {
-        if (!$this->notes->contains($note)) {
-            $this->notes[] = $note;
-            $note->setVoyage($this);
+        if (!$this->sections->contains($section)) {
+            $this->sections[] = $section;
+            $section->setVoyage($this);
         }
 
         return $this;
     }
 
-    public function removeNote(Note $note): self
+    public function removeSection(Section $section): self
     {
-        if ($this->notes->removeElement($note)) {
+        if ($this->sections->removeElement($section)) {
             // set the owning side to null (unless already changed)
-            if ($note->getVoyage() === $this) {
-                $note->setVoyage(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Place>
-     */
-    public function getPlaces(): Collection
-    {
-        return $this->places;
-    }
-
-    public function addPlace(Place $place): self
-    {
-        if (!$this->places->contains($place)) {
-            $this->places[] = $place;
-            $place->setVoyage($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlace(Place $place): self
-    {
-        if ($this->places->removeElement($place)) {
-            // set the owning side to null (unless already changed)
-            if ($place->getVoyage() === $this) {
-                $place->setVoyage(null);
+            if ($section->getVoyage() === $this) {
+                $section->setVoyage(null);
             }
         }
 

@@ -7,7 +7,7 @@
     </svg>
     <h3>Are you sure?</h3>
     <div class="text-muted">
-        Do you really want to delete the place <b>"{{ place.title}}"</b> ? This action cannot be undone.
+        Do you really want to delete the item <b>"{{ item.title}}"</b> ? This action cannot be undone.
     </div>
 </div>
 <div class="modal-footer">
@@ -17,7 +17,7 @@
                     Cancel
                 </a></div>
             <div class="col">
-                {{ include('place/_delete_form.html.twig') }}
+                {{ include('item/_delete_form.html.twig') }}
             </div>
         </div>
     </div>
