@@ -1,0 +1,11 @@
+<div class="modal-body">
+    <h1>Edit Voyage</h1>
+
+    {{ form_start(form, {'attr' : {'data-action' : "testmodal#submitForm"}}) }}
+    {{ form_row(form.status) }}
+
+    <div class="text-end">
+        <button class="btn btn-indigo">{{ button_label|default('Save') }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>

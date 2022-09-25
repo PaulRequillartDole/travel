@@ -1,0 +1,13 @@
+<div class="modal-body">
+    <h1>Edit Voyage</h1>
+    {% if voyage.image is not null %}
+        <img style="max-width: 100%;" class="rounded" src="{{ voyage.image }}" alt="">
+    {% endif %}
+    {{ form_start(form, {'attr' : {'data-action' : "testmodal#submitForm"}}) }}
+    {{ form_row(form.image) }}
+
+    <div class="text-end">
+        <button class="btn btn-indigo">{{ button_label|default('Save') }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>

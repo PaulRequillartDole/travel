@@ -10,8 +10,8 @@
     <ul class="dropdown-menu dropdown-menu-end">
         <li><a class="dropdown-item"
                href="#"
-                    {#                                                   data-action="modal#showModal"#}
-                    {#                                                   data-modal-url-param="#"#}
+               data-action="modal#showModal"
+               data-modal-url-param="{{ path('app_voyage_users', {'id': voyage.id}) }}"
                data-modal-size-param="modal-lg"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -24,8 +24,8 @@
             </a></li>
         <li><a class="dropdown-item"
                href="#"
-                    {#                                                   data-action="modal#showModal"#}
-                    {#                                                   data-modal-url-param="#"#}
+               data-action="modal#showModal"
+               data-modal-url-param="{{ path('app_voyage_status', {'id': voyage.id}) }}"
                data-modal-size-param="modal-lg"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag me-2" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -37,8 +37,8 @@
             </a></li>
         <li><a class="dropdown-item"
                href="#"
-                    {#                                                   data-action="modal#showModal"#}
-                    {#                                                   data-modal-url-param="#"#}
+               data-action="modal#showModal"
+               data-modal-url-param="{{ path('app_voyage_banner', {'id': voyage.id}) }}"
                data-modal-size-param="modal-lg"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-photo me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

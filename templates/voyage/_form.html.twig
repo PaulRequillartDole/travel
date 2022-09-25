@@ -10,22 +10,22 @@
         </div>
     </div>
     {{ form_row(form.status) }}
-    {{ form_label(form.users) }}
-    <div class="row row-cols-3 row-cols-md-4 g-3 my-3">
-        {% for user in form.users %}
-            <div class="col d-flex align-items-baseline gap-2">
-                <input {% if user.vars.checked %} checked="checked" {% endif %}
-                        type="checkbox" id="{{  user.vars.id }}"
-                        name="voyage[users][]" class="form-check-input"
-                        value="{{ user.vars.value }}">
-                <label class="form-check-label text-center" for="{{  user.vars.id }}">
-                    <span class="avatar border">{{ user.vars.label|slice(0, 2) }}</span>
-                    <span class="d-block">{{ user.vars.label }}</span>
-                </label>
-            </div>
-        {% endfor %}
-    </div>
-    {{ form_row(form.image) }}
+{#    {{ form_label(form.users) }}#}
+{#    <div class="row row-cols-3 row-cols-md-4 g-3 my-3">#}
+{#        {% for user in form.users %}#}
+{#            <div class="col d-flex align-items-baseline gap-2">#}
+{#                <input {% if user.vars.checked %} checked="checked" {% endif %}#}
+{#                        type="checkbox" id="{{  user.vars.id }}"#}
+{#                        name="voyage[users][]" class="form-check-input"#}
+{#                        value="{{ user.vars.value }}">#}
+{#                <label class="form-check-label text-center" for="{{  user.vars.id }}">#}
+{#                    <span class="avatar border">{{ user.vars.label|slice(0, 2) }}</span>#}
+{#                    <span class="d-block">{{ user.vars.label }}</span>#}
+{#                </label>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#    {{ form_row(form.image) }}#}
     <div class="text-end">
         <button class="btn btn-indigo">{{ button_label|default('Save') }}</button>
     </div>

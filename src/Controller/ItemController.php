@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Note;
 use App\Entity\Item;
+use App\Entity\Note;
 use App\Entity\Section;
+use App\Form\ItemMoveType;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,6 +62,26 @@ class ItemController extends AbstractController
         }
 
         return $this->renderForm('item/edit.html.twig', [
+            'item' => $item,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/item/{id}/move", name="app_item_move", methods={"GET", "POST"})
+     */
+    public function move(Request $request, Item $item, ItemRepository $itemRepository): Response
+    {
+        $form = $this->createForm(ItemMoveType::class, $item, ['action' => $this->generateUrl('app_item_move', ['id' => $item->getId()])]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $itemRepository->add($item, true);
+
+            return $this->redirectToRoute('app_voyage_show', ['id' => $item->getSection()->getVoyage()->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('item/move.html.twig', [
             'item' => $item,
             'form' => $form,
         ]);

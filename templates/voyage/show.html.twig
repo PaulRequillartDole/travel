@@ -38,13 +38,20 @@
                                 {{ voyage.description }}
                             </div>
                         {% endif %}
-                        {% if voyage.startAt is not null and voyage.endAt is not null %}
-                            <div class="text-muted">
-                                {{ voyage.duration }} days -
-                                from <b>{{ voyage.startAt|date('d/m/Y') }}</b> to
-                                <b>{{ voyage.endAt|date('d/m/Y') }}</b>
-                            </div>
-                        {% endif %}
+                        <div class="d-flex gap-2 my-1">
+                            {% if voyage.status %}
+                                <span class="badge bg-{{ voyage.status.color ?? "light border text-dark" }}">
+                                    {{ voyage.status.label }}
+                                </span>
+                            {% endif %}
+                            {% if voyage.startAt is not null and voyage.endAt is not null %}
+                                <div class="text-muted">
+                                    {{ voyage.duration }} days -
+                                    from <b>{{ voyage.startAt|format_datetime('full', 'none', locale='fr') }}</b> to
+                                    <b>{{ voyage.endAt|format_datetime('full', 'none', locale='fr') }}</b>
+                                </div>
+                            {% endif %}
+                        </div>
                         <div class="avatar-list mt-2">
                             <span class="avatar avatar-sm">{{ voyage.owner.userIdentifier|slice(0, 2) }}</span>
                             {% for user in voyage.users %}

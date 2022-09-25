@@ -57,10 +57,10 @@ class VoyageType extends AbstractType
                 },
                 'required' => false,
             ])
-            ->add('image', TextType::class, [
-                'label' => 'url de l\'image',
-                'required' => false,
-            ])
+//            ->add('image', TextType::class, [
+//                'label' => 'url de l\'image',
+//                'required' => false,
+//            ])
         ;
     }
 

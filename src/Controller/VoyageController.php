@@ -7,7 +7,10 @@ use App\Entity\Place;
 use App\Entity\Section;
 use App\Entity\User;
 use App\Entity\Voyage;
+use App\Form\VoyageBannerType;
+use App\Form\VoyageStatusType;
 use App\Form\VoyageType;
+use App\Form\VoyageUserType;
 use App\Repository\VoyageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -109,6 +112,94 @@ class VoyageController extends AbstractController
         }
 
         return $this->renderForm('voyage/edit.html.twig', [
+            'voyage' => $voyage,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/status", name="app_voyage_status", methods={"GET", "POST"})
+     */
+    public function status(Request $request, Voyage $voyage, VoyageRepository $voyageRepository): Response
+    {
+        if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {
+            $this->addFlash('danger', ['title' => 'Vous n\'avez pas le droit d\'accéder à cette page']);
+            return $this->redirectToRoute('app_voyage_index');
+        }
+
+        $user = $this->getUser();
+        $form = $this->createForm(VoyageStatusType::class, $voyage, [
+            'action' => $this->generateUrl('app_voyage_status', ['id' => $voyage->getId()])
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $voyageRepository->add($voyage, true);
+
+            //return to voyage
+            return $this->redirectToRoute('app_voyage_show', ['id' => $voyage->getId()]);
+        }
+
+        return $this->renderForm('voyage/edit_status.html.twig', [
+            'voyage' => $voyage,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/users", name="app_voyage_users", methods={"GET", "POST"})
+     */
+    public function users(Request $request, Voyage $voyage, VoyageRepository $voyageRepository): Response
+    {
+        if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {
+            $this->addFlash('danger', ['title' => 'Vous n\'avez pas le droit d\'accéder à cette page']);
+            return $this->redirectToRoute('app_voyage_index');
+        }
+
+        $user = $this->getUser();
+        $form = $this->createForm(VoyageUserType::class, $voyage, [
+            'user' => $user,
+            'action' => $this->generateUrl('app_voyage_users', ['id' => $voyage->getId()])
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $voyageRepository->add($voyage, true);
+
+            //return to voyage
+            return $this->redirectToRoute('app_voyage_show', ['id' => $voyage->getId()]);
+        }
+
+        return $this->renderForm('voyage/edit_users.html.twig', [
+            'voyage' => $voyage,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/banner", name="app_voyage_banner", methods={"GET", "POST"})
+     */
+    public function banner(Request $request, Voyage $voyage, VoyageRepository $voyageRepository): Response
+    {
+        if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {
+            $this->addFlash('danger', ['title' => 'Vous n\'avez pas le droit d\'accéder à cette page']);
+            return $this->redirectToRoute('app_voyage_index');
+        }
+
+        $user = $this->getUser();
+        $form = $this->createForm(VoyageBannerType::class, $voyage, [
+            'action' => $this->generateUrl('app_voyage_banner', ['id' => $voyage->getId()])
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $voyageRepository->add($voyage, true);
+
+            //return to voyage
+            return $this->redirectToRoute('app_voyage_show', ['id' => $voyage->getId()]);
+        }
+
+        return $this->renderForm('voyage/edit_banner.html.twig', [
             'voyage' => $voyage,
             'form' => $form,
         ]);
