@@ -21,7 +21,11 @@ class VoyageType extends AbstractType
         $user = $options['user'];
         $builder
             ->add('destination', TextType::class, [
-                'data' => !$builder->getData()->getId() ? "Trip to " : $builder->getData()->getDestination(),
+                'attr' => [
+                    'data-place-target'=>"input",
+                    'class' => 'p-0 border-0'
+//                    'data-action'=>"place#onInput"
+                ]
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,

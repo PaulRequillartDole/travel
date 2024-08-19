@@ -1,5 +1,9 @@
 {{ form_start(form, {'attr' : {'data-action' : "testmodal#submitForm"}}) }}
+<div data-controller="place">
     {{ form_row(form.destination) }}
+
+{#    <div class="list-group" data-place-target="suggestions" style="position: absolute;z-index: 100; background: white; list-style: none; padding: 0; margin: 0; width: 100%; border: 1px solid #ccc;"></div>#}
+</div>
     {{ form_row(form.description) }}
     <div class="my-3">
         <label class="form-label" for="daterange">Dates du voyage</label>

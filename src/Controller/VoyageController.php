@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\UX\Map\InfoWindow;
 use Symfony\UX\Map\Map;
 use Symfony\UX\Map\Marker;
 use Symfony\UX\Map\Point;
@@ -46,7 +47,10 @@ class VoyageController extends AbstractController
                 $myMap
                     ->addMarker(new Marker(
                         position: new Point(floatval($voyage->getLat()), floatval($voyage->getLon())),
-                        title: $voyage->getDestination()
+                        title: $voyage->getDestination(),
+                        infoWindow: new InfoWindow(
+                            content: '<p>'.$voyage->getDestination().'</p><p>'.$voyage->getDescription().'</p>',
+                        )
                     ));
             }
         }
