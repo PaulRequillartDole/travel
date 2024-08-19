@@ -65,6 +65,16 @@ class Voyage
      */
     private $sections;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $lon = null;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $lat = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -221,5 +231,37 @@ class Voyage
         }
 
         return $this;
+    }
+
+    public function getLon(): ?string
+    {
+        return $this->lon;
+    }
+
+    public function setLon(?string $lon): static
+    {
+        $this->lon = $lon;
+
+        return $this;
+    }
+
+    public function getLat(): ?string
+    {
+        return $this->lat;
+    }
+
+    public function setLat(?string $lat): static
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getCoordinates(): ?string
+    {
+        if ($this->lon) {
+            return $this->lat . ',' . $this->lon;
+        }
+        return null;
     }
 }

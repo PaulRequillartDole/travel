@@ -7,34 +7,40 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
     {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
     {% block stylesheets %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta11/dist/css/tabler.min.css">
-        {{ encore_entry_link_tags('app') }}
-{#        <link rel="stylesheet" href="https://preview.tabler.io/dist/css/tabler.min.css">#}
+{#        {{ encore_entry_link_tags('app') }}#}
+    {% endblock %}
+
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {#    {{ encore_entry_script_tags('app') }}#}
+            <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/tabler.min.js"></script>
+        {#    <script src="https://previ    ew.tabler.io/dist/js/demo.min.js"></script>#}
+
     {% endblock %}
 </head>
 <body class="theme-light">
 <script>
     let darkModeEnabled = false;
-
-    const enableDarkMode = (isEnabled) => {
-        console.log(isEnabled);
-        darkModeEnabled = isEnabled;
-        document.body.classList.toggle('theme-dark');
-        document.cookie = `darkMode=${isEnabled}; path=/; SameSite=Strict; Secure`;
-    };
-
-    const cookies = document.cookie.split(';');
-    const userPrefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (cookies.includes('darkMode=true') || cookies.includes('darkMode=false')) {
-        console.log('cookie found : ' + cookies.includes('darkMode=true') );
-        darkModeEnabled = cookies.includes('darkMode=true');
-    } else if (userPrefersDarkMode) {
-        console.log('user prefers dark mode');
-        enableDarkMode(true);
-    }
+    //
+    // const enableDarkMode = (isEnabled) => {
+    //     console.log(isEnabled);
+    //     darkModeEnabled = isEnabled;
+    //     document.body.classList.toggle('theme-dark');
+    //     document.cookie = `darkMode=${isEnabled}; path=/; SameSite=Strict; Secure`;
+    // };
+    //
+    // const cookies = document.cookie.split(';');
+    // const userPrefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    //
+    // if (cookies.includes('darkMode=true') || cookies.includes('darkMode=false')) {
+    //     console.log('cookie found : ' + cookies.includes('darkMode=true') );
+    //     darkModeEnabled = cookies.includes('darkMode=true');
+    // } else if (userPrefersDarkMode) {
+    //     console.log('user prefers dark mode');
+    //     enableDarkMode(true);
+    // }
 </script>
-<div class="page">
+<div class="page" {{ stimulus_controller('hello') }}>
 {#    {{ include('_sidebar.html.twig') }}#}
     {{ include('_navbar.html.twig') }}
     <div class="page-wrapper">
@@ -49,12 +55,4 @@
     </div>
 </div>
 </body>
-
-
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta11/dist/js/tabler.min.js"></script>
-{#    <script src="https://preview.tabler.io/dist/js/demo.min.js"></script>#}
-
-{% endblock %}
 </html>

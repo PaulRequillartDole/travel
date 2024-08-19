@@ -43,6 +43,12 @@
             </div>
         </div>
 
+        <div class="text-center">
+            {% if map.toArray.markers %}
+                {{ render_map(map, { style: 'height: 400px; width: 80%; margin: 0 auto' }) }}
+            {% endif %}
+        </div>
+
         {{ include('_modal.html.twig') }}
     </div>
 {#    <div class="card card-table">#}

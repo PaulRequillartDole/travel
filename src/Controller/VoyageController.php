@@ -12,12 +12,16 @@ use App\Form\VoyageStatusType;
 use App\Form\VoyageType;
 use App\Form\VoyageUserType;
 use App\Repository\VoyageRepository;
+use App\Service\GeocodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\UX\Map\Map;
+use Symfony\UX\Map\Marker;
+use Symfony\UX\Map\Point;
 
 /**
  * @Route("/voyage")
@@ -32,22 +36,39 @@ class VoyageController extends AbstractController
         $voyages = $this->getUser()->getVoyages();
         $voyagesByStatus = [];
         $status = [];
+        $myMap = (new Map())->fitBoundsToMarkers();
+
+        /** @var Voyage $voyage */
         foreach ($voyages as $voyage) {
             $voyagesByStatus[$voyage->getStatus()->getLabel()][] = $voyage;
             $status[$voyage->getStatus()->getLabel()] = $voyage->getStatus();
+            if ($voyage->getStatus()->getId() === 4 && $voyage->getLat()){
+                $myMap
+                    ->addMarker(new Marker(
+                        position: new Point(floatval($voyage->getLat()), floatval($voyage->getLon())),
+                        title: $voyage->getDestination()
+                    ));
+            }
+        }
+
+        if (count($myMap->toArray()['markers']) === 1){
+            $myMap->center(new Point($myMap->toArray()['markers'][0]['position']['lat'], $myMap->toArray()['markers'][0]['position']['lng']));
+            $myMap->zoom(2);
+            $myMap->fitBoundsToMarkers(false);
         }
 
         return $this->render('voyage/index.html.twig', [
             'voyages' => $voyageRepository->findAll(),
             'voyagesByStatus' => $voyagesByStatus,
             'status' => $status,
+            'map' => $myMap,
         ]);
     }
 
     /**
      * @Route("/new", name="app_voyage_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, VoyageRepository $voyageRepository): Response
+    public function new(Request $request, VoyageRepository $voyageRepository, GeocodeService $geocodeService): Response
     {
         $voyage = new Voyage();
         /** @var User $user */
@@ -60,6 +81,11 @@ class VoyageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $coordonates = $geocodeService->getCoordinates($voyage->getDestination());
+            if ($coordonates){
+                $voyage->setLat($coordonates['latitude']);
+                $voyage->setLon($coordonates['longitude']);
+            }
             $voyageRepository->add($voyage, true);
 
             //return to voyage
@@ -90,7 +116,7 @@ class VoyageController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_voyage_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Voyage $voyage, VoyageRepository $voyageRepository): Response
+    public function edit(Request $request, Voyage $voyage, VoyageRepository $voyageRepository, GeocodeService $geocodeService): Response
     {
         if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {
             $this->addFlash('danger', ['title' => 'Vous n\'avez pas le droit d\'accéder à cette page']);
@@ -105,6 +131,11 @@ class VoyageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $coordonates = $geocodeService->getCoordinates($voyage->getDestination());
+            if ($coordonates){
+                $voyage->setLat($coordonates['latitude']);
+                $voyage->setLon($coordonates['longitude']);
+            }
             $voyageRepository->add($voyage, true);
 
             //return to voyage

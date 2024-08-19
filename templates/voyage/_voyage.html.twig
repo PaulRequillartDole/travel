@@ -6,9 +6,7 @@
                     <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}">{{ voyage.destination }}</a>
                 </h3>
                 {% if voyage.status %}
-                    <span class="badge bg-{{ voyage.status.color ?? "light border text-dark" }}">
-                            {{ voyage.status.label }}
-                        </span>
+                    {{ include('components/_status.html.twig', {status: voyage.status}) }}
                 {% endif %}
             </div>
             <div class="text-muted">{{ voyage.description }}</div>

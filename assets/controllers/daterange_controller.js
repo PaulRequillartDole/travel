@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import flatpickr from "flatpickr";
-import 'flatpickr/dist/flatpickr.css'
+import 'flatpickr/dist/flatpickr.min.css'
 import fr from 'flatpickr/dist/l10n/fr'
 flatpickr.localize(fr);
 

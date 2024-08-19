@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 
-import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism.min.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 
 import Prism from 'prismjs';
@@ -19,7 +19,7 @@ export default class extends Controller {
         const editor = new Editor({
             el: this.element,
             initialValue: this.element.dataset.value,
-            plugins: [[codeSyntaxHighlight, { highlighter: Prism }]],
+            // plugins: [[codeSyntaxHighlight, { highlighter: Prism }]],
             events: {
                 change: ev => {
                     console.log('change');

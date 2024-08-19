@@ -18,9 +18,7 @@
             <tr>
                 <td>{{ status.id }}</td>
                 <td>
-                    <span class="badge bg-{{ status.color ?? "light border text-dark" }}">
-                        {{ status.label }}
-                    </span>
+                    {{ include('components/_status.html.twig', {status: status}) }}
                 </td>
                 <td>
                     <a href="{{ path('app_status_edit', {'id': status.id}) }}">edit</a>

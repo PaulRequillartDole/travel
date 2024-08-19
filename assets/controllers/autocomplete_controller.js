@@ -1,6 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import 'tom-select/dist/css/tom-select.bootstrap4.min.css'
-import TomSelect from "tom-select/dist/js/tom-select.complete.min";
+import TomSelect from "../vendor/tom-select/tom-select.index.js";
 
 /*
  * This is an example Stimulus controller!

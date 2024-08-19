@@ -38,11 +38,11 @@
                                 {{ voyage.description }}
                             </div>
                         {% endif %}
+                        {{ dump(voyage.coordinates) }}
+
                         <div class="d-flex gap-2 my-1">
                             {% if voyage.status %}
-                                <span class="badge bg-{{ voyage.status.color ?? "light border text-dark" }}">
-                                    {{ voyage.status.label }}
-                                </span>
+                                {{ include('components/_status.html.twig', {status: voyage.status}) }}
                             {% endif %}
                             {% if voyage.startAt is not null and voyage.endAt is not null %}
                                 <div class="text-muted">
