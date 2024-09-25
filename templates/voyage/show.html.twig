@@ -38,7 +38,6 @@
                                 {{ voyage.description }}
                             </div>
                         {% endif %}
-                        {{ dump(voyage.coordinates) }}
 
                         <div class="d-flex gap-2 my-1">
                             {% if voyage.status %}
@@ -62,6 +61,50 @@
                 </div>
 
                 {{ include('voyage/_menu.html.twig') }}
+
+                <div class="my-3">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h3 class="d-flex align-items-center gap-2">
+                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" /></svg>
+                                        Mes étapes du voyage
+                                    </h3>
+                                    <ul class="list-group">
+                                        {% for destination in voyage.destinations %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                {{ destination.title }}
+                                                <a href="#"
+                                                   data-action="modal#showModal"
+                                                   data-modal-url-param="{{ path('app_destination_edit', {'id': voyage.id, 'destination': destination.id}) }}"
+                                                   data-modal-size-param="modal-lg"
+                                                >
+                                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                        <li class="list-group-item">
+                                            <a href="#"
+                                               data-action="modal#showModal"
+                                               data-modal-url-param="{{ path('app_destination_new', {'id': voyage.id}) }}"
+                                               data-modal-size-param="modal-lg"
+                                            >
+                                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-square-rounded-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /><path d="M15 12h-6" /><path d="M12 9v6" /></svg>
+                                                Ajouter une étape
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% if map %}
+                            <div class="col-6">
+                                {{ render_map(map, {'style': 'height: 400px'}) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
 
                 {% if voyage.sections|length > 0 %}
                     {% for section in voyage.sections %}

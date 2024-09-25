@@ -160,4 +160,10 @@ return [
         'version' => '2.3.1',
         'type' => 'css',
     ],
+    'emoji-picker-element' => [
+        'version' => '1.22.4',
+    ],
+    '@symfony/ux-leaflet-map' => [
+        'path' => './vendor/symfony/ux-leaflet-map/assets/dist/map_controller.js',
+    ],
 ];

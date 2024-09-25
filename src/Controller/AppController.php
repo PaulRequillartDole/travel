@@ -12,9 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AppController extends AbstractController
 {
-    /**
-     * @Route("/", name="app")
-     */
+    #[Route(path: '/', name: 'app')]
     public function index(VoyageRepository $voyageRepository, EntityManagerInterface $entityManager): Response
     {
 //        if (($handle = fopen($this->getParameter('kernel.project_dir')."/note.csv", "r")) !== FALSE) {

@@ -24,54 +24,30 @@ use Symfony\UX\Map\Map;
 use Symfony\UX\Map\Marker;
 use Symfony\UX\Map\Point;
 
-/**
- * @Route("/voyage")
- */
+#[Route(path: '/voyage')]
 class VoyageController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_voyage_index", methods={"GET"})
-     */
+    #[Route(path: '/', name: 'app_voyage_index', methods: ['GET'])]
     public function index(VoyageRepository $voyageRepository): Response
     {
         $voyages = $this->getUser()->getVoyages();
         $voyagesByStatus = [];
         $status = [];
-        $myMap = (new Map())->fitBoundsToMarkers();
 
         /** @var Voyage $voyage */
         foreach ($voyages as $voyage) {
             $voyagesByStatus[$voyage->getStatus()->getLabel()][] = $voyage;
             $status[$voyage->getStatus()->getLabel()] = $voyage->getStatus();
-            if ($voyage->getStatus()->getId() === 4 && $voyage->getLat()){
-                $myMap
-                    ->addMarker(new Marker(
-                        position: new Point(floatval($voyage->getLat()), floatval($voyage->getLon())),
-                        title: $voyage->getDestination(),
-                        infoWindow: new InfoWindow(
-                            content: '<p>'.$voyage->getDestination().'</p><p>'.$voyage->getDescription().'</p>',
-                        )
-                    ));
-            }
-        }
-
-        if (count($myMap->toArray()['markers']) === 1){
-            $myMap->center(new Point($myMap->toArray()['markers'][0]['position']['lat'], $myMap->toArray()['markers'][0]['position']['lng']));
-            $myMap->zoom(2);
-            $myMap->fitBoundsToMarkers(false);
         }
 
         return $this->render('voyage/index.html.twig', [
             'voyages' => $voyageRepository->findAll(),
             'voyagesByStatus' => $voyagesByStatus,
             'status' => $status,
-            'map' => $myMap,
         ]);
     }
 
-    /**
-     * @Route("/new", name="app_voyage_new", methods={"GET", "POST"})
-     */
+    #[Route(path: '/new', name: 'app_voyage_new', methods: ['GET', 'POST'])]
     public function new(Request $request, VoyageRepository $voyageRepository, GeocodeService $geocodeService): Response
     {
         $voyage = new Voyage();
@@ -85,10 +61,11 @@ class VoyageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $coordonates = $geocodeService->getCoordinates($voyage->getDestination());
-            if ($coordonates){
-                $voyage->setLat($coordonates['latitude']);
-                $voyage->setLon($coordonates['longitude']);
+            $data = $geocodeService->getGeoData($voyage->getDestination());
+            if ($data){
+                $voyage->setLat($data->getLatitude());
+                $voyage->setLon($data->getLongitude());
+                $voyage->setDestinationType($data->getType());
             }
             $voyageRepository->add($voyage, true);
 
@@ -102,9 +79,7 @@ class VoyageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_voyage_show", methods={"GET"})
-     */
+    #[Route(path: '/{id}', name: 'app_voyage_show', methods: ['GET'])]
     public function show(Voyage $voyage): Response
     {
         if (!$this->isGranted('VOYAGE_SHOW', $voyage)) {
@@ -112,14 +87,36 @@ class VoyageController extends AbstractController
             return $this->redirectToRoute('app_voyage_index');
         }
 
+        $map = null;
+        if (!$voyage->getDestinations()->isEmpty()){
+            $map = (new Map())->fitBoundsToMarkers();
+
+            /** @var Voyage $voyage */
+            foreach ($voyage->getDestinations() as $destination) {
+                $map
+                    ->addMarker(new Marker(
+                        position: new Point($destination->getLat(), $destination->getLng()),
+                        title: $destination->getTitle(),
+                        infoWindow: new InfoWindow(
+                            content: '<p>'.$destination->getTitle().'</p><p><a href="#">delete</a></p>',
+                        )
+                    ));
+        }
+
+            if (count($map->toArray()['markers']) === 1){
+                $map->center(new Point($map->toArray()['markers'][0]['position']['lat'], $map->toArray()['markers'][0]['position']['lng']));
+                $map->zoom(2);
+                $map->fitBoundsToMarkers(false);
+            }
+        }
+
         return $this->render('voyage/show.html.twig', [
             'voyage' => $voyage,
+            'map' => $map,
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="app_voyage_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/edit', name: 'app_voyage_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Voyage $voyage, VoyageRepository $voyageRepository, GeocodeService $geocodeService): Response
     {
         if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {
@@ -135,7 +132,7 @@ class VoyageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $coordonates = $geocodeService->getCoordinates($voyage->getDestination());
+            $coordonates = $geocodeService->getGeoData($voyage->getDestination());
             if ($coordonates){
                 $voyage->setLat($coordonates['latitude']);
                 $voyage->setLon($coordonates['longitude']);
@@ -152,9 +149,7 @@ class VoyageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/status", name="app_voyage_status", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/status', name: 'app_voyage_status', methods: ['GET', 'POST'])]
     public function status(Request $request, Voyage $voyage, VoyageRepository $voyageRepository): Response
     {
         if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {
@@ -181,9 +176,7 @@ class VoyageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/users", name="app_voyage_users", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/users', name: 'app_voyage_users', methods: ['GET', 'POST'])]
     public function users(Request $request, Voyage $voyage, VoyageRepository $voyageRepository): Response
     {
         if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {
@@ -211,9 +204,7 @@ class VoyageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/banner", name="app_voyage_banner", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/banner', name: 'app_voyage_banner', methods: ['GET', 'POST'])]
     public function banner(Request $request, Voyage $voyage, VoyageRepository $voyageRepository): Response
     {
         if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {
@@ -240,9 +231,7 @@ class VoyageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/voyage/{id}/show-delete", name="app_voyage_show_delete", methods={"GET", "POST"})
-     */
+    #[Route(path: '/voyage/{id}/show-delete', name: 'app_voyage_show_delete', methods: ['GET', 'POST'])]
     public function showDelete(Voyage $voyage): Response
     {
         return $this->render('voyage/delete.html.twig', [
@@ -250,9 +239,7 @@ class VoyageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_voyage_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'app_voyage_delete', methods: ['POST'])]
     public function delete(Request $request, Voyage $voyage, VoyageRepository $voyageRepository): Response
     {
         if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {

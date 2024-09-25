@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\GeoData;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GeocodeService
@@ -13,10 +14,11 @@ class GeocodeService
         $this->httpClient = $httpClient;
     }
 
-    public function getCoordinates(string $cityName)
+    public function getGeoData(string $cityName)
     {
         $url = 'https://nominatim.openstreetmap.org/search';
 
+        $cityName = explode(",", $cityName)[0];
         $response = $this->httpClient->request('GET', $url, [
             'query' => [
                 'q' => $cityName,
@@ -28,13 +30,13 @@ class GeocodeService
         $data = $response->toArray();
 
         if (!empty($data)) {
-            $latitude = $data[0]['lat'];
-            $longitude = $data[0]['lon'];
-
-            return [
-                'latitude' => $latitude,
-                'longitude' => $longitude,
-            ];
+            return new GeoData(
+                latitude: $data[0]['lat'],
+                longitude: $data[0]['lon'],
+                name: $data[0]['name'],
+                displayName: $data[0]['display_name'],
+                type: $data[0]['addresstype']
+            );
         }
 
         return null; // Retourne null si aucune coordonnée n'est trouvée

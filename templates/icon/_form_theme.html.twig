@@ -1,11 +1,11 @@
 {%- block choice_widget_expanded -%}
-    <div class="d-flex gap-4 flex-wrap" {{ block('widget_container_attributes') }}>
+    <div data-controller="icon" class="d-flex gap-4 flex-wrap" {{ block('widget_container_attributes') }}>
         {% set placeholder = form.children['placeholder'] %}
         {%- for key, child in form %}
             {% if key != 'placeholder' %}
                 <label for="{{ child.vars.id }}">
-                    <input {{ child.vars.checked ? "checked" : ""}} type="radio" id="{{ child.vars.id }}" name="{{ child.vars.full_name }}" required="required" class="form-check-input" value="{{ child.vars.value }}">
-                    {{ child.vars.label|raw }}
+                    <input data-icon-target="icon" hidden="hidden" {{ child.vars.checked ? "checked" : ""}} type="radio" id="{{ child.vars.id }}" name="{{ child.vars.full_name }}" required="required" class="form-check-input emoji-choice" value="{{ child.vars.value }}">
+                    <span class="emoji-icon" data-value="{{ child.vars.id }}">{{ child.vars.label|raw }}</span>
                 </label>
             {% endif %}
         {% endfor -%}

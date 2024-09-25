@@ -7,37 +7,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=SectionRepository::class)
- */
+#[ORM\Entity(repositoryClass: SectionRepository::class)]
 class Section
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Voyage::class, inversedBy="sections")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Voyage::class, inversedBy: 'sections')]
     private $voyage;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Icon::class, inversedBy="sections")
-     */
+    #[ORM\ManyToOne(targetEntity: Icon::class, inversedBy: 'sections')]
     private $icon;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="section")
-     */
+    #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'section')]
     private $items;
 
     public function __construct()

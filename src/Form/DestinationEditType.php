@@ -2,30 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Icon;
+use App\Entity\Destination;
+use App\Entity\Voyage;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class IconType extends AbstractType
+class DestinationEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('label')
+            ->add('title', TextType::class)
         ;
-
-        if (!$builder->getData()->getId()){
-            $builder->add('saveAndAdd', SubmitType::class, ['label' => 'Save and Add']);
-
-        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Icon::class,
+            'data_class' => Destination::class,
         ]);
     }
 }

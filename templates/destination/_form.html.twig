@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+    <div data-controller="place">
+        {{ form_row(form.title) }}
+    </div>
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

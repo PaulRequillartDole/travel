@@ -14,9 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TestController extends AbstractController
 {
-    /**
-     * @Route("/test", name="test_voyage_index", methods={"GET"})
-     */
+    #[Route(path: '/test', name: 'test_voyage_index', methods: ['GET'])]
     public function index(VoyageRepository $voyageRepository): Response
     {
         $voyages = $this->getUser()->getVoyages();
@@ -33,9 +31,7 @@ class TestController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/test/new", name="test_voyage_new", methods={"GET", "POST"})
-     */
+    #[Route(path: '/test/new', name: 'test_voyage_new', methods: ['GET', 'POST'])]
     public function new(Request $request, VoyageRepository $voyageRepository): Response
     {
         $voyage = new Voyage();
@@ -68,9 +64,7 @@ class TestController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/test/{id}/edit", name="test_voyage_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/test/{id}/edit', name: 'test_voyage_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Voyage $voyage, VoyageRepository $voyageRepository): Response
     {
         if (!$this->isGranted('VOYAGE_EDIT', $voyage)) {

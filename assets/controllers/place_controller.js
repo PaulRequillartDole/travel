@@ -63,7 +63,7 @@ export default class extends Controller {
                     .then(response => response.json())
                     .then(data => {
                         const results = data.map(place => ({
-                            value: `${place.lat},${place.lon}`,
+                            value: place.display_name,
                             text: place.display_name
                         }));
                         callback(results);

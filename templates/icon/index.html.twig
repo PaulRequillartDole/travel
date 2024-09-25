@@ -3,33 +3,19 @@
 {% block title %}Icon index{% endblock %}
 
 {% block body %}
-    <h1>Icon index</h1>
+    <div class="d-flex justify-content-between mb-3">
+        <h1 class="mb-0">Icon</h1>
+        <a class="btn btn-primary" href="{{ path('app_icon_new') }}">Create new</a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Label</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="d-flex gap-3">
         {% for icon in icons %}
-            <tr>
-                <td>{{ icon.id }}</td>
-                <td>{{ icon.label|raw }}</td>
-                <td>
-                    <a href="{{ path('app_icon_show', {'id': icon.id}) }}">show</a>
-                    <a href="{{ path('app_icon_edit', {'id': icon.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
+            <a href="{{ path('app_icon_edit', {'id': icon.id}) }}">
+                <span class="avatar avatar-lg rounded-3">
+                    {{ icon.label|raw }}
+                </span>
+            </a>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 
-    <a href="{{ path('app_icon_new') }}">Create new</a>
 {% endblock %}

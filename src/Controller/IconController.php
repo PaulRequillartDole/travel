@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/icon")
- */
+#[Route(path: '/icon')]
 class IconController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_icon_index", methods={"GET"})
-     */
+    #[Route(path: '/', name: 'app_icon_index', methods: ['GET'])]
     public function index(IconRepository $iconRepository): Response
     {
         return $this->render('icon/index.html.twig', [
@@ -25,9 +21,7 @@ class IconController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="app_icon_new", methods={"GET", "POST"})
-     */
+    #[Route(path: '/new', name: 'app_icon_new', methods: ['GET', 'POST'])]
     public function new(Request $request, IconRepository $iconRepository): Response
     {
         $icon = new Icon();
@@ -37,7 +31,11 @@ class IconController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $iconRepository->add($icon, true);
 
-            return $this->redirectToRoute('app_icon_index', [], Response::HTTP_SEE_OTHER);
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'app_icon_new'
+                : 'app_icon_index';
+
+            return $this->redirectToRoute($nextAction, [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('icon/new.html.twig', [
@@ -46,19 +44,7 @@ class IconController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_icon_show", methods={"GET"})
-     */
-    public function show(Icon $icon): Response
-    {
-        return $this->render('icon/show.html.twig', [
-            'icon' => $icon,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="app_icon_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/edit', name: 'app_icon_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Icon $icon, IconRepository $iconRepository): Response
     {
         $form = $this->createForm(IconType::class, $icon);
@@ -76,9 +62,7 @@ class IconController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_icon_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'app_icon_delete', methods: ['POST'])]
     public function delete(Request $request, Icon $icon, IconRepository $iconRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$icon->getId(), $request->request->get('_token'))) {

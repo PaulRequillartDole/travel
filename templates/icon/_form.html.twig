@@ -1,4 +1,15 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {% if icon.id %}
+        <span class="avatar avatar-lg rounded-3 mb-3">
+            {{ icon.label|raw }}
+        </span>
+    {% endif %}
+    {{ form_row(form.label) }}
+    <div class="">
+        <a class="btn btn-dark" href="{{ path('app_icon_index') }}">Retour</a>
+        <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+        {% if form.saveAndAdd is defined %}
+            {{ form_widget(form.saveAndAdd) }}
+        {% endif %}
+    </div>
 {{ form_end(form) }}

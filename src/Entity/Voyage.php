@@ -8,77 +8,58 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=VoyageRepository::class)
- */
+#[ORM\Entity(repositoryClass: VoyageRepository::class)]
 class Voyage
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\GeneratedValue]
+    #[ORM\Id]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private $destination;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: "text", nullable: true)]
     private $description;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+    #[ORM\Column(type: "date", nullable: true)]
     private $startAt;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+    #[ORM\Column(type: "date", nullable: true)]
     private $endAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Status::class, inversedBy="voyages")
-     */
+    #[ORM\ManyToOne(targetEntity: Status::class, inversedBy: "voyages")]
     private $status;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ownedVoyages")
-     */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "ownedVoyages")]
     private $owner;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="sharedVoyages")
-     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "sharedVoyages")]
     private $users;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: "text", nullable: true)]
     private $image;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Section::class, mappedBy="voyage")
-     */
+    #[ORM\OneToMany(mappedBy: "voyage", targetEntity: Section::class)]
     private $sections;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $lon = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $lat = null;
+
+    #[ORM\OneToMany(mappedBy: "voyage", targetEntity: Destination::class)]
+    private $destinations;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $destinationType = null;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->sections = new ArrayCollection();
+        $this->destinations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -263,5 +244,47 @@ class Voyage
             return $this->lat . ',' . $this->lon;
         }
         return null;
+    }
+
+    /**
+     * @return Collection<int, Destination>
+     */
+    public function getDestinations(): Collection
+    {
+        return $this->destinations;
+    }
+
+    public function addDestination(Destination $destination): static
+    {
+        if (!$this->destinations->contains($destination)) {
+            $this->destinations->add($destination);
+            $destination->setVoyage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDestination(Destination $destination): static
+    {
+        if ($this->destinations->removeElement($destination)) {
+            // set the owning side to null (unless already changed)
+            if ($destination->getVoyage() === $this) {
+                $destination->setVoyage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDestinationType(): ?string
+    {
+        return $this->destinationType;
+    }
+
+    public function setDestinationType(?string $destinationType): static
+    {
+        $this->destinationType = $destinationType;
+
+        return $this;
     }
 }

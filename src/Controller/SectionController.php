@@ -15,9 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SectionController extends AbstractController
 {
-    /**
-     * @Route("/voyage/{id}/section/new", name="app_section_new", methods={"GET", "POST"})
-     */
+    #[Route(path: '/voyage/{id}/section/new', name: 'app_section_new', methods: ['GET', 'POST'])]
     public function new(Voyage $voyage, Request $request, SectionRepository $sectionRepository): Response
     {
         $section = new Section();
@@ -37,9 +35,7 @@ class SectionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/section/{id}", name="app_section_show", methods={"GET"})
-     */
+    #[Route(path: '/section/{id}', name: 'app_section_show', methods: ['GET'])]
     public function show(Section $section): Response
     {
         return $this->render('section/show.html.twig', [
@@ -47,9 +43,7 @@ class SectionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/section/{id}/edit", name="app_section_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/section/{id}/edit', name: 'app_section_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Section $section, SectionRepository $sectionRepository): Response
     {
         $form = $this->createForm(SectionType::class, $section, ['action' => $this->generateUrl('app_section_edit', ['id' => $section->getId()])]);
@@ -67,9 +61,7 @@ class SectionController extends AbstractController
         ]);
     }
 
-    /**
-    * @Route("/section/{id}/show-delete", name="app_section_show_delete", methods={"GET", "POST"})
-    */
+    #[Route(path: '/section/{id}/show-delete', name: 'app_section_show_delete', methods: ['GET', 'POST'])]
     public function showDelete(Section $section): Response
     {
         return $this->render('section/delete.html.twig', [
@@ -77,9 +69,7 @@ class SectionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/section/{id}/delete", name="app_section_delete", methods={"POST"})
-     */
+    #[Route(path: '/section/{id}/delete', name: 'app_section_delete', methods: ['POST'])]
     public function delete(Request $request, Section $section, SectionRepository $sectionRepository, ItemRepository $itemRepository): Response
     {
         $voyage = $section->getVoyage();

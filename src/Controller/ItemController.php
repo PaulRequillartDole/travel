@@ -15,9 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ItemController extends AbstractController
 {
-    /**
-     * @Route("/section/{id}/item/new", name="app_item_new", methods={"GET", "POST"})
-     */
+    #[Route(path: '/section/{id}/item/new', name: 'app_item_new', methods: ['GET', 'POST'])]
     public function new(Section $section, Request $request, ItemRepository $itemRepository): Response
     {
         $item = new Item();
@@ -37,9 +35,7 @@ class ItemController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/item/{id}", name="app_item_show", methods={"GET"})
-     */
+    #[Route(path: '/item/{id}', name: 'app_item_show', methods: ['GET'])]
     public function show(Item $item): Response
     {
         return $this->render('item/show.html.twig', [
@@ -47,9 +43,7 @@ class ItemController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/item/{id}/edit", name="app_item_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/item/{id}/edit', name: 'app_item_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Item $item, ItemRepository $itemRepository): Response
     {
         $form = $this->createForm(ItemType::class, $item, ['action' => $this->generateUrl('app_item_edit', ['id' => $item->getId()])]);
@@ -67,9 +61,7 @@ class ItemController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/item/{id}/move", name="app_item_move", methods={"GET", "POST"})
-     */
+    #[Route(path: '/item/{id}/move', name: 'app_item_move', methods: ['GET', 'POST'])]
     public function move(Request $request, Item $item, ItemRepository $itemRepository): Response
     {
         $form = $this->createForm(ItemMoveType::class, $item, ['action' => $this->generateUrl('app_item_move', ['id' => $item->getId()])]);
@@ -87,9 +79,7 @@ class ItemController extends AbstractController
         ]);
     }
 
-    /**
-    * @Route("/item/{id}/show-delete", name="app_item_show_delete", methods={"GET", "POST"})
-    */
+    #[Route(path: '/item/{id}/show-delete', name: 'app_item_show_delete', methods: ['GET', 'POST'])]
     public function showDelete(Item $item): Response
     {
         return $this->render('item/delete.html.twig', [
@@ -97,9 +87,7 @@ class ItemController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/item/{id}/delete", name="app_item_delete", methods={"POST"})
-     */
+    #[Route(path: '/item/{id}/delete', name: 'app_item_delete', methods: ['POST'])]
     public function delete(Request $request, Item $item, ItemRepository $itemRepository): Response
     {
         $section = $item->getSection();

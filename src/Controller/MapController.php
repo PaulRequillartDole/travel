@@ -12,14 +12,10 @@ use Symfony\UX\Map\Marker;
 use Symfony\UX\Map\Point;
 
 
-/**
- * @Route("/map")
- */
+#[Route(path: '/map')]
 class MapController extends AbstractController
 {
-    /**
-     * @Route("", name="app_map", methods={"GET"})
-     */
+    #[Route(path: '', name: 'app_map', methods: ['GET'])]
     public function __invoke(): Response
     {
         $voyages = $this->getUser()->getVoyages();
